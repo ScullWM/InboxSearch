@@ -20,11 +20,11 @@ trait DatesTrait
     }
 
     /**
-     * @param mixed $after the after
+     * @param \DateTime $after the after
      *
      * @return this
      */
-    public function setAfter($after)
+    public function setAfter(\DateTime $after)
     {
         $this->after = $after;
 
@@ -42,11 +42,11 @@ trait DatesTrait
     }
 
     /**
-     * @param mixed $before the before
+     * @param \DateTime $before the before
      *
      * @return this
      */
-    public function setBefore($before)
+    public function setBefore(\DateTime $before)
     {
         $this->before = $before;
 
@@ -64,11 +64,11 @@ trait DatesTrait
     }
 
     /**
-     * @param mixed $older the older
+     * @param \DateTime $older the older
      *
      * @return this
      */
-    public function setOlder($older)
+    public function setOlder(\DateTime $older)
     {
         $this->older = $older;
 
@@ -86,11 +86,11 @@ trait DatesTrait
     }
 
     /**
-     * @param mixed $newer the newer
+     * @param \DateTime $newer the newer
      *
      * @return this
      */
-    public function setNewer($newer)
+    public function setNewer(\DateTime $newer)
     {
         $this->newer = $newer;
 
