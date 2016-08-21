@@ -38,6 +38,9 @@ class InboxSearchFactory
         $this->searchString = $searchString;
     }
 
+    /**
+     * @return InboxSearchInterface
+     */
     public function process()
     {
         $exploded    = explode(self::INTERNAL_DELIMITER, $this->prepare($this->searchString));
@@ -46,7 +49,6 @@ class InboxSearchFactory
         foreach (array_filter($exploded) as $term) {
             foreach ($this->filterParsing as $filter) {
                 if (strstr($term, $filter)) {
-                    // var_dump(self::INTERNAL_DELIMITER . $filter);
                     $cleanTerm = str_replace($filter . ':', '', $term);
                     $expTerm = explode(' ', $cleanTerm);
 
@@ -112,7 +114,6 @@ class InboxSearchFactory
                 }
             }
         }
-        var_dump($inboxSearch);
         return $inboxSearch;
     }
 
