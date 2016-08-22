@@ -22,6 +22,7 @@ class LabelFilter implements FilterInterface
         $expTerm = explode(' ', $cleanTerm);
 
         $inboxSearch->setLabel($cleanTerm);
+        $inboxSearch->addKeywordForFilter(InboxSearchInterface::FILTER_LABEL, implode(' ', $expTerm));
 
         return $inboxSearch;
     }

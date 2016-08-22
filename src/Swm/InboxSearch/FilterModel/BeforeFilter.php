@@ -22,6 +22,7 @@ class BeforeFilter implements FilterInterface
         $expTerm = explode(' ', $cleanTerm);
 
         $inboxSearch->setBefore(new \DateTime($cleanTerm));
+        $inboxSearch->addKeywordForFilter(InboxSearchInterface::FILTER_BEFORE, implode(' ', $expTerm));
 
         return $inboxSearch;
     }

@@ -11,7 +11,6 @@ class OlderFilter implements FilterInterface
         return (strstr($content, InboxSearchInterface::FILTER_OLDER));
     }
 
-
     /**
      * @param  InboxSearchInterface $InboxSearch
      * @param  string               $term
@@ -23,6 +22,7 @@ class OlderFilter implements FilterInterface
         $expTerm = explode(' ', $cleanTerm);
 
         $inboxSearch->setOlder(new \DateTime($cleanTerm));
+        $inboxSearch->addKeywordForFilter(InboxSearchInterface::FILTER_OLDER, implode(' ', $expTerm));
 
         return $inboxSearch;
     }

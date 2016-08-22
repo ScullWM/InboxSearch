@@ -22,6 +22,7 @@ class HasFilter implements FilterInterface
         $expTerm = explode(' ', $cleanTerm);
 
         $inboxSearch->setHas($cleanTerm);
+        $inboxSearch->addKeywordForFilter(InboxSearchInterface::FILTER_HAS, implode(' ', $expTerm));
 
         return $inboxSearch;
     }

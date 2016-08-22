@@ -22,6 +22,7 @@ class AfterFilter implements FilterInterface
         $expTerm = explode(' ', $cleanTerm);
 
         $inboxSearch->setAfter(new \DateTime($cleanTerm));
+        $inboxSearch->addKeywordForFilter(InboxSearchInterface::FILTER_AFTER, implode(' ', $expTerm));
 
         return $inboxSearch;
     }

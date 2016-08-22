@@ -22,6 +22,7 @@ class FilenameFilter implements FilterInterface
         $expTerm = explode(' ', $cleanTerm);
 
         $inboxSearch->setFilename($cleanTerm);
+        $inboxSearch->addKeywordForFilter(InboxSearchInterface::FILTER_AFTER, implode(' ', $expTerm));
 
         return $inboxSearch;
     }

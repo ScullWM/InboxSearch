@@ -22,6 +22,7 @@ class FromFilter implements FilterInterface
         $expTerm = explode(' ', $cleanTerm);
 
         $inboxSearch->setFrom($cleanTerm);
+        $inboxSearch->addKeywordForFilter(InboxSearchInterface::FILTER_FROM, implode(' ', $expTerm));
 
         return $inboxSearch;
     }

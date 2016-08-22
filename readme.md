@@ -4,19 +4,19 @@ Search operators library
 
 Supported operators
 -------------------
- - Filename
- - Size
- - Has
- - From
- - To
- - Subject
- - Label
- - Delivered To
- - After
- - Before
- - Older
- - Newer
- - In
+ - Filename (string)
+ - Size (integer)
+ - Has (string)
+ - From (string)
+ - To (string)
+ - Subject (string)
+ - Label (string)
+ - Delivered To (string)
+ - After (\DateTime)
+ - Before (\DateTime)
+ - Older (\DateTime)
+ - Newer (\DateTime)
+ - In (string)
 
 
 How to use

@@ -22,6 +22,7 @@ class NewerFilter implements FilterInterface
         $expTerm = explode(' ', $cleanTerm);
 
         $inboxSearch->setNewer(new \DateTime($cleanTerm));
+        $inboxSearch->addKeywordForFilter(InboxSearchInterface::FILTER_NEWER, implode(' ', $expTerm));
 
         return $inboxSearch;
     }

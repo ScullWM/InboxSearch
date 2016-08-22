@@ -22,6 +22,7 @@ class InFilter implements FilterInterface
         $expTerm = explode(' ', $cleanTerm);
 
         $inboxSearch->setIn($cleanTerm);
+        $inboxSearch->addKeywordForFilter(InboxSearchInterface::FILTER_IN, implode(' ', $expTerm));
 
         return $inboxSearch;
     }
