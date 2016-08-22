@@ -11,23 +11,20 @@ class InboxSearchFactory
 
     const INTERNAL_DELIMITER = '||';
 
-    const DONT_EXTRACT_KEYWORD = false;
-    const EXTRACT_KEYWORD = true;
-
     private $filterParsing = [
-        InboxSearchInterface::FILTER_FILENAME,
-        InboxSearchInterface::FILTER_SIZE,
-        InboxSearchInterface::FILTER_HAS,
-        InboxSearchInterface::FILTER_FROM,
-        InboxSearchInterface::FILTER_TO,
-        InboxSearchInterface::FILTER_SUBJECT,
-        InboxSearchInterface::FILTER_LABEL,
-        InboxSearchInterface::FILTER_DELIVEREDTO,
-        InboxSearchInterface::FILTER_AFTER,
-        InboxSearchInterface::FILTER_BEFORE,
-        InboxSearchInterface::FILTER_OLDER,
-        InboxSearchInterface::FILTER_NEWER,
-        InboxSearchInterface::FILTER_IN
+        InboxSearchInterface::FILTER_FILENAME    => 'Swm\InboxSearch\FilterModel\FilenameFilter',
+        InboxSearchInterface::FILTER_SIZE        => 'Swm\InboxSearch\FilterModel\SizeFilter',
+        InboxSearchInterface::FILTER_HAS         => 'Swm\InboxSearch\FilterModel\HasFilter',
+        InboxSearchInterface::FILTER_FROM        => 'Swm\InboxSearch\FilterModel\FromFilter',
+        InboxSearchInterface::FILTER_TO          => 'Swm\InboxSearch\FilterModel\ToFilter',
+        InboxSearchInterface::FILTER_SUBJECT     => 'Swm\InboxSearch\FilterModel\SubjectFilter',
+        InboxSearchInterface::FILTER_LABEL       => 'Swm\InboxSearch\FilterModel\LabelFilter',
+        InboxSearchInterface::FILTER_DELIVEREDTO => 'Swm\InboxSearch\FilterModel\DeliveredToFilter',
+        InboxSearchInterface::FILTER_AFTER       => 'Swm\InboxSearch\FilterModel\AfterFilter',
+        InboxSearchInterface::FILTER_BEFORE      => 'Swm\InboxSearch\FilterModel\BeforeFilter',
+        InboxSearchInterface::FILTER_OLDER       => 'Swm\InboxSearch\FilterModel\OlderFilter',
+        InboxSearchInterface::FILTER_NEWER       => 'Swm\InboxSearch\FilterModel\NewerFilter',
+        InboxSearchInterface::FILTER_IN          => 'Swm\InboxSearch\FilterModel\InFilter',
     ];
 
     /**
@@ -39,82 +36,13 @@ class InboxSearchFactory
     }
 
     /**
-     * @return InboxSearchInterface
+     * @param string $defaultInboxSearchFqcn
      */
-    public function process()
+    public function setDefaultInboxSearchFqcn($defaultInboxSearchFqcn)
     {
-        $exploded    = explode(self::INTERNAL_DELIMITER, $this->prepare($this->searchString));
-        $inboxSearch = new $this->defaultInboxSearchFqcn();
+        $this->defaultInboxSearchFqcn = $defaultInboxSearchFqcn;
 
-        foreach (array_filter($exploded) as $term) {
-            foreach ($this->filterParsing as $filter) {
-                if (strstr($term, $filter)) {
-                    $cleanTerm = str_replace($filter . ':', '', $term);
-                    $expTerm = explode(' ', $cleanTerm);
-
-                    switch ($filter) {
-                        case InboxSearchInterface::FILTER_AFTER:
-                            $inboxSearch->setAfter(new \DateTime($cleanTerm));
-                            break;
-                        case InboxSearchInterface::FILTER_BEFORE:
-                            $inboxSearch->setBefore(new \DateTime($cleanTerm));
-                            break;
-                        case InboxSearchInterface::FILTER_OLDER:
-                            $inboxSearch->setOlder(new \DateTime($cleanTerm));
-                            break;
-                        case InboxSearchInterface::FILTER_NEWER:
-                            $inboxSearch->setNewer(new \DateTime($cleanTerm));
-                            break;
-                        case InboxSearchInterface::FILTER_FILENAME:
-                            $inboxSearch->setFilename($cleanTerm);
-                            break;
-                        case InboxSearchInterface::FILTER_SIZE:
-                            $inboxSearch->setSize((int) $cleanTerm);
-                            break;
-                        case InboxSearchInterface::FILTER_HAS:
-                            $inboxSearch->setHas($cleanTerm);
-                            break;
-                        case InboxSearchInterface::FILTER_SUBJECT:
-                            $inboxSearch->setSubject($cleanTerm);
-                            break;
-                        case InboxSearchInterface::FILTER_LABEL:
-                            $inboxSearch->setLabel($cleanTerm);
-                            break;
-                        case InboxSearchInterface::FILTER_FROM:
-                            if (count($expTerm) > 1) {
-                                $inboxSearch->setFrom($expTerm[0]);
-                                unset($expTerm[0]);
-                                $inboxSearch->addKeywordForFilter(InboxSearchInterface::FILTER_FROM, implode(' ', $expTerm));
-                            } else {
-                                $inboxSearch->setFrom($cleanTerm);
-                            }
-                            break;
-                        case InboxSearchInterface::FILTER_TO:
-                            if (count($expTerm) > 1) {
-                                $inboxSearch->setTo($expTerm[0]);
-                                unset($expTerm[0]);
-                                $inboxSearch->addKeywordForFilter(InboxSearchInterface::FILTER_TO, implode(' ', $expTerm));
-                            } else {
-                                $inboxSearch->setTo($cleanTerm);
-                            }
-                            break;
-                        case InboxSearchInterface::FILTER_DELIVEREDTO:
-                            if (count($expTerm) > 1) {
-                                $inboxSearch->setDelivredTo($expTerm[0]);
-                                unset($expTerm[0]);
-                                $inboxSearch->addKeywordForFilter(InboxSearchInterface::FILTER_DELIVEREDTO, implode(' ', $expTerm));
-                            } else {
-                                $inboxSearch->setDelivredTo($cleanTerm);
-                            }
-                            break;
-                        case InboxSearchInterface::FILTER_IN:
-                            $inboxSearch->setIn($cleanTerm);
-                            break;
-                    }
-                }
-            }
-        }
-        return $inboxSearch;
+        return $this;
     }
 
     /**
@@ -125,5 +53,28 @@ class InboxSearchFactory
     {
         $filterParsingDelimiter = array_map(function($filter){ return self::INTERNAL_DELIMITER . $filter;}, $this->filterParsing);
         return str_replace($this->filterParsing, $filterParsingDelimiter, $string);
+    }
+
+    public function process()
+    {
+        $explodedTerms = explode(self::INTERNAL_DELIMITER, $this->prepare($this->searchString));
+        $inboxSearch = new $this->defaultInboxSearchFqcn();
+
+        foreach ($this->filterParsing as $filter => $filterFqcn) {
+            $this->filterParsing[$filter] = new $filterFqcn();
+        }
+
+        foreach (array_filter($explodedTerms) as $term) {
+            foreach ($this->filterParsing as $filter => $filterModel) {
+
+                if ($filterModel->isSatisfied($term)) {
+
+                    $filterModel->update($inboxSearch, $term);
+                }
+
+            }
+        }
+
+        return $inboxSearch;
     }
 }
