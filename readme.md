@@ -30,5 +30,6 @@ $factory = new InboxSearchFactory($term);
 //  return InboxSearchInterface
 $inboxSearch = $factory->process();
 
-$from = $inboxSearch->getFrom();
+$from    = $inboxSearch->getFrom();
+$keyword = $inboxSearch->getKeyword();
 ```
