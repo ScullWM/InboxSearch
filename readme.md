@@ -1,11 +1,12 @@
 InboxSearch
 ===========
-Search operators library
+Search operators library.
+See more from Gmail: https://support.google.com/mail/answer/7190?hl=en
 
 Supported operators
 -------------------
  - Filename (string)
- - Size (integer)
+ - Size (integer - convert string in bytes)
  - Has (string)
  - From (string)
  - To (string)
