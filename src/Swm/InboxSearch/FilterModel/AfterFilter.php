@@ -6,6 +6,10 @@ use Swm\InboxSearch\Model\InboxSearchInterface;
 
 class AfterFilter implements FilterInterface
 {
+    /**
+     * @param  string  $content
+     * @return boolean
+     */
     public function isSatisfied($content)
     {
         return (strstr($content, InboxSearchInterface::FILTER_AFTER));

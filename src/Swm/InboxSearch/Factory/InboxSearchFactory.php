@@ -2,6 +2,7 @@
 
 namespace Swm\InboxSearch\Factory;
 
+use Swm\InboxSearch\FilterModel\FilterInterface;
 use Swm\InboxSearch\Model\InboxSearchInterface;
 
 class InboxSearchFactory
@@ -46,6 +47,32 @@ class InboxSearchFactory
     }
 
     /**
+     * @param string $filterParserFqcn
+     */
+    public function addFilterParser($filterParserFqcn)
+    {
+        $this->filterParsing[] = $filterParserFqcn;
+    }
+
+    /**
+     * @param  mixed $filterParserKey
+     */
+    public function removeFilterParser($filterParserKey)
+    {
+        if (array_key_exists($filterParserKey, $this->filterParsing)) {
+            unset($this->filterParsing[$filterParserKey])
+        }
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getAllFilters()
+    {
+        return $this->filterParsing;
+    }
+
+    /**
      * @param  string $string
      * @return string
      */
@@ -55,6 +82,9 @@ class InboxSearchFactory
         return str_replace($this->filterParsing, $filterParsingDelimiter, $string);
     }
 
+    /**
+     * @return InboxSearchInterface
+     */
     public function process()
     {
         $explodedTerms = explode(self::INTERNAL_DELIMITER, $this->prepare($this->searchString));
