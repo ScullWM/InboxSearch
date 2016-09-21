@@ -10,7 +10,7 @@ class InboxSearchFactory
     private $defaultInboxSearchFqcn = 'Swm\InboxSearch\Model\InboxSearch';
     private $searchString;
 
-    const INTERNAL_DELIMITER = '||';
+    const INTERNAL_DELIMITER = '|~DELIMITER~|';
 
     private $filterParsing = [
         InboxSearchInterface::FILTER_FILENAME    => 'Swm\InboxSearch\FilterModel\FilenameFilter',
@@ -60,7 +60,7 @@ class InboxSearchFactory
     public function removeFilterParser($filterParserKey)
     {
         if (array_key_exists($filterParserKey, $this->filterParsing)) {
-            unset($this->filterParsing[$filterParserKey])
+            unset($this->filterParsing[$filterParserKey]);
         }
     }
 
