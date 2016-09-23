@@ -35,3 +35,17 @@ $keyword = $inboxSearch->getKeyword(); // array('from' => 'forum')
 
 $fromKeyword = $inboxSearch->getKeywordFor(InboxSearchInterface::FILTER_FROM); // forum
 ```
+
+
+Create your own filter
+----------------------
+Filter must implement `FilterInterface`.
+Then register the filter in your factory instance
+```php
+
+$factory = new InboxSearchFactory($term);
+
+$myFilterParserFqcn = 'Swm\InboxSearch\FilterModel\MyCustomFilter';
+$factory->addFilterParser($myFilterParserFqcn);
+
+```
