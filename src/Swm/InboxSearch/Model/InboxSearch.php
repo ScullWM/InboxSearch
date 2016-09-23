@@ -219,11 +219,23 @@ class InboxSearch implements InboxSearchInterface
     /**
      * Gets the value of keyword.
      *
-     * @return string
+     * @return array
      */
     public function getKeyword()
     {
         return $this->keyword;
+    }
+
+    /**
+     * Gets the keyword value for a filter.
+     *
+     * @return string|null
+     */
+    public function getKeywordFor($filter)
+    {
+        if (isset($this->keyword[$filter])) {
+            return $this->keyword[$filter]
+        }
     }
 
     /**

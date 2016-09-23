@@ -30,6 +30,8 @@ $factory = new InboxSearchFactory($term);
 //  return InboxSearchInterface
 $inboxSearch = $factory->process();
 
-$from    = $inboxSearch->getFrom();
-$keyword = $inboxSearch->getKeyword();
+$from    = $inboxSearch->getFrom(); // thomas@scullwm.com
+$keyword = $inboxSearch->getKeyword(); // array('from' => 'forum')
+
+$fromKeyword = $inboxSearch->getKeywordFor(InboxSearchInterface::FILTER_FROM); // forum
 ```
