@@ -96,12 +96,9 @@ class InboxSearchFactory
 
         foreach (array_filter($explodedTerms) as $term) {
             foreach ($this->filterParsing as $filter => $filterModel) {
-
                 if ($filterModel->isSatisfied($term)) {
-
                     $filterModel->update($inboxSearch, $term);
                 }
-
             }
         }
 

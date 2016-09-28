@@ -2,7 +2,7 @@
     "name": "scullwm/inboxsearch",
     "type": "library",
     "description": "wip",
-    "keywords": ["sinbox"],
+    "keywords": ["inbox","search"],
     "homepage": "http://github.com/ScullWM/InboxSearch",
     "license": "MIT",
     "authors": [
@@ -14,7 +14,10 @@
     "require": {
         "php": ">=5.4"
     },
+    "require-dev": {
+      "atoum/atoum": "~2.5"
+    },
     "autoload": {
-        "psr-4": { "": "" }
+        "psr-4": { "Swm\\": "src/" }
     }
 }
