@@ -5,6 +5,7 @@
     "keywords": ["inbox","search"],
     "homepage": "http://github.com/ScullWM/InboxSearch",
     "license": "MIT",
+    "type": "standalone",
     "authors": [
         {
             "name": "Thomas P",
@@ -17,7 +18,11 @@
     "require-dev": {
       "atoum/atoum": "~2.5"
     },
+    "config": {
+        "bin-dir": "bin"
+    },
     "autoload": {
-        "psr-4": { "Swm\\": "src/" }
-    }
+        "psr-4": { "Swm\\InboxSearch\\": "src/" }
+    },
+    "minimum-stability": "dev"
 }
