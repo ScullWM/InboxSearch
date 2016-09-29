@@ -25,7 +25,8 @@ class AfterFilter implements FilterInterface
         $cleanTerm = str_replace(InboxSearchInterface::FILTER_AFTER . ':', '', $term);
         $expTerm = explode(' ', $cleanTerm);
 
-        $inboxSearch->setAfter(new \DateTime($cleanTerm));
+        $inboxSearch->setAfter(new \DateTime($expTerm[0]));
+        unset($expTerm[0]);
         $inboxSearch->addKeywordForFilter(InboxSearchInterface::FILTER_AFTER, implode(' ', $expTerm));
 
         return $inboxSearch;

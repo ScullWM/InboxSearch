@@ -25,7 +25,8 @@ class FromFilter implements FilterInterface
         $cleanTerm = str_replace(InboxSearchInterface::FILTER_FROM . ':', '', $term);
         $expTerm = explode(' ', $cleanTerm);
 
-        $inboxSearch->setFrom($cleanTerm);
+        $inboxSearch->setFrom($expTerm[0]);
+        unset($expTerm[0]);
         $inboxSearch->addKeywordForFilter(InboxSearchInterface::FILTER_FROM, implode(' ', $expTerm));
 
         return $inboxSearch;

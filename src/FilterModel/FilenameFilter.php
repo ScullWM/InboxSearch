@@ -25,8 +25,9 @@ class FilenameFilter implements FilterInterface
         $cleanTerm = str_replace(InboxSearchInterface::FILTER_FILENAME . ':', '', $term);
         $expTerm = explode(' ', $cleanTerm);
 
-        $inboxSearch->setFilename($cleanTerm);
-        $inboxSearch->addKeywordForFilter(InboxSearchInterface::FILTER_AFTER, implode(' ', $expTerm));
+        $inboxSearch->setFilename($expTerm[0]);
+        unset($expTerm[0]);
+        $inboxSearch->addKeywordForFilter(InboxSearchInterface::FILTER_FILENAME, implode(' ', $expTerm));
 
         return $inboxSearch;
     }
