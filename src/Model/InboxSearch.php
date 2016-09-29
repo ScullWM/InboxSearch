@@ -234,7 +234,7 @@ class InboxSearch implements InboxSearchInterface
     public function getKeywordFor($filter)
     {
         if (isset($this->keyword[$filter])) {
-            return $this->keyword[$filter]
+            return $this->keyword[$filter];
         }
     }
 

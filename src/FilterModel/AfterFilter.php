@@ -4,7 +4,7 @@ namespace Swm\InboxSearch\FilterModel;
 
 use Swm\InboxSearch\Model\InboxSearchInterface;
 
-class FilenameFilter implements FilterInterface
+class AfterFilter implements FilterInterface
 {
     /**
      * @param  string  $content
@@ -12,7 +12,7 @@ class FilenameFilter implements FilterInterface
      */
     public function isSatisfied($content)
     {
-        return (strstr($content, InboxSearchInterface::FILTER_FILENAME));
+        return (strstr($content, InboxSearchInterface::FILTER_AFTER));
     }
 
     /**
@@ -22,10 +22,11 @@ class FilenameFilter implements FilterInterface
      */
     public function update(InboxSearchInterface $inboxSearch, $term)
     {
-        $cleanTerm = str_replace(InboxSearchInterface::FILTER_FILENAME . ':', '', $term);
+        $cleanTerm = str_replace(InboxSearchInterface::FILTER_AFTER . ':', '', $term);
         $expTerm = explode(' ', $cleanTerm);
 
-        $inboxSearch->setFilename($cleanTerm);
+        $inboxSearch->setAfter(new \DateTime($expTerm[0]));
+        unset($expTerm[0]);
         $inboxSearch->addKeywordForFilter(InboxSearchInterface::FILTER_AFTER, implode(' ', $expTerm));
 
         return $inboxSearch;
