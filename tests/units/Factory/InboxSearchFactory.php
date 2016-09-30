@@ -19,6 +19,16 @@ class InboxSearchFactory extends atoum\test
         ;
     }
 
+    public function testProcess()
+    {
+        $this
+            ->given($this->newTestedInstance('element'))
+            ->then
+                ->object($this->testedInstance->process())
+                    ->isInstanceOf('Swm\InboxSearch\Model\InboxSearch')
+        ;
+    }
+
     public function testRemoveFilterParser()
     {
         $this
