@@ -52,6 +52,32 @@ class InboxSearchFactory extends atoum\test
             ->then
                 ->string($inboxSearch->getKeywordFor(InboxSearchInterface::FILTER_FROM))
                     ->isEqualTo('forum')
+            ->then
+                ->array($inboxSearch->getKeyword())
+                    ->notHasKeys([InboxSearchInterface::FILTER_FILENAME, InboxSearchInterface::FILTER_SUBJECT])
+                    ->hasKey(InboxSearchInterface::FILTER_FROM)
+                    ->contains('forum')
+        ;
+    }
+
+    public function testFromFilterComposed()
+    {
+        $randomValue = md5(mt_rand());
+        $inboxSearch = $this->newTestedInstance('from:thomas+testing123@scullwm.com my great test '. $randomValue)->process();
+
+        $this
+            ->given($inboxSearch)
+            ->then
+                ->string($inboxSearch->getFrom())
+                    ->isEqualTo('thomas+testing123@scullwm.com')
+            ->then
+                ->string($inboxSearch->getKeywordFor(InboxSearchInterface::FILTER_FROM))
+                    ->isEqualTo('my great test '. $randomValue)
+            ->then
+                ->array($inboxSearch->getKeyword())
+                    ->notHasKeys([InboxSearchInterface::FILTER_FILENAME, InboxSearchInterface::FILTER_SUBJECT])
+                    ->hasKey(InboxSearchInterface::FILTER_FROM)
+                    ->contains('my great test '. $randomValue)
         ;
     }
 
